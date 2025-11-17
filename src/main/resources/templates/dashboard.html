@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(title=~{::title}, content=~{::#content})}">
+    <head>
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <div id="content">
+            <div class="container"> 
+                <h1>Bienvenido a tu Panel de Control</h1>
+
+                <div th:if="${notificacionCita != null}" style="border: 2px solid orange; padding: 15px; background-color: #fff3e0;">
+                    <h2>⚠️ Recordatorio de Cita Próxima</h2>
+                    <p>Tienes una sesión de terapia programada en breve:</p>
+                    <p><strong>Fecha y Hora:</strong> 
+                        <span th:text="${#temporals.format(notificacionCita.fechaHora, 'dd-MM-yyyy HH:mm')}"></span>
+                    </p>
+                </div>
+
+                <hr>
+
+                <p>Explora <a th:href="@{/psicologos}">Terapeutas disponibles</a>.</p>
+            </div>
+        </div>
+    </body>
+</html>

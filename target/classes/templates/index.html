@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(title=~{::title}, content=~{::#content})}">
+<head>
+    <title>Bienvenido | Terapia y Salud Mental</title>
+</head>
+<body>
+    <div id="content">
+        
+        <div class="container">
+            <h1>Bienvenido a Terapia y Salud Mental</h1>
+            
+            <p>Tu espacio seguro en línea para conectar con profesionales de la salud mental.</p>
+            
+            <hr>
+            
+            <h2>¿Cómo podemos ayudarte hoy?</h2>
+            
+            <div class="flex-cards">
+                
+                <div class="card">
+                    <h3>Encuentra un Terapeuta</h3>
+                    <p>Busca psicólogos y terapeutas especializados por área, experiencia y disponibilidad.</p>
+                    <a th:href="@{/psicologos}" class="btn-primary">Buscar Ahora</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Recursos y Guías</h3>
+                    <p>Explora nuestro blog con artículos sobre ansiedad, manejo del estrés y bienestar.</p>
+                    <a th:href="@{/blog}" class="btn-secondary">Leer el Blog</a>
+                </div>
+
+                <!-- ⬅️ CORRECCIÓN: Tarjeta visible SOLO para usuarios anónimos -->
+                <div class="card" sec:authorize="isAnonymous()">
+                    <h3>Acceso a Usuarios</h3>
+                    <p>Inicia sesión o regístrate para gestionar tus citas y acceder a tu dashboard.</p>
+                    <a th:href="@{/login}" class="btn-primary">Iniciar Sesión</a>
+                    <a th:href="@{/registro}" class="btn-secondary">Registrarse</a>
+                </div>
+                
+                <!-- ⬅️ NUEVO: Tarjeta de Bienvenida para usuarios autenticados -->
+                <div class="card" sec:authorize="isAuthenticated()">
+                    <h3>¡Bienvenido de nuevo!</h3>
+                    <p>Ya has iniciado sesión. Accede a tu panel para gestionar tus citas y perfil.</p>
+                    <a th:href="@{/dashboard}" class="btn-primary">Ir al Dashboard</a>
+                </div>
+                
+            </div>
+            
+            <p style="margin-top: 30px;">Estamos aquí para apoyarte en tu camino hacia el bienestar emocional.</p>
+        </div>
+    </div>
+</body>
+</html>

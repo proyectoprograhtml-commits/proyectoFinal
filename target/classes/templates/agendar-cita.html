@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(title=~{::title}, content=~{::#content})}">
+<head>
+    <title>Agendar Cita</title>
+</head>
+<body>
+    <div id="content">
+        <div class="container">
+            <h1 class="text-primary">Agendar Sesión de Terapia</h1>
+            
+            <p class="lead">Estás a punto de agendar una cita. Aquí podrás seleccionar la fecha y hora disponibles.</p>
+            
+            <hr>
+
+            <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <p><strong>Terapeuta Seleccionado (ID de Prueba):</strong> <span th:text="${terapeutaId}"></span></p>
+                </div>
+
+            <form action="/confirmar-cita" method="post">
+                
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                
+                <fieldset>
+                    <legend>Seleccionar Disponibilidad</legend>
+
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" name="hora" required>
+
+                    <input type="hidden" name="terapeutaId" th:value="${terapeutaId}">
+                </fieldset>
+                
+                <button type="submit" class="btn-success">Confirmar Cita</button>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(title=~{::title}, content=~{::#content})}"> 
+    <head> 
+            <title>Buscar Terapeutas</title>
+    </head>
+    <body>
+            <div id="content">
+                    <div class="container">
+                            <h1>Encuentra a tu Terapeuta Ideal (Psicólogos)</h1>
+                            
+                            <form th:action="@{/psicologos}" method="get">
+                                    <label for="especialidad">Filtrar por Especialidad:</label>
+                                    <select id="especialidad" name="especialidad">
+                                            <option value="" th:selected="${filtroActual == ''}">Todas las Especialidades</option>
+                                            <option value="Ansiedad" th:selected="${filtroActual == 'Ansiedad'}">Ansiedad</option>
+                                            <option value="Duelo" th:selected="${filtroActual == 'Duelo'}">Duelo</option>
+                                            <option value="Depresión" th:selected="${filtroActual == 'Depresión'}">Depresión</option>
+                                        </select>
+                                    <button type="submit">Aplicar Filtro</button>
+                                </form>
+
+                            <hr>
+
+                            <h2>Resultados</h2>
+
+                            <div th:if="${listaTerapeutas.isEmpty()}">
+                                    <p>No se encontraron terapeutas disponibles con el filtro seleccionado.</p>
+                                </div>
+
+                            <div th:each="terapeuta : ${listaTerapeutas}" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px;">
+                                    <h3 th:text="${terapeuta.nombre}">Nombre del Terapeuta</h3>
+                                    <p>Especialidad: <strong th:text="${terapeuta.especialidad}"></strong></p>
+                                    <p>Email: <span th:text="${terapeuta.email}"></span></p>
+                                    
+                    <a th:href="@{/agendar-cita/{id}(id=${terapeuta.id})}" class="btn-secondary">
+                        Ver Perfil y Agendar Cita
+                    </a>
+                                </div>
+                        </div>
+                </div>
+    </body>
+</html>

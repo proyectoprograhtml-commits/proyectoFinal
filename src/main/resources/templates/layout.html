@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> 
+    
+    <body>
+
+        <div th:fragment="layout(title, content)">
+
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                
+                <link rel="stylesheet" th:href="@{/css/style.css}"> 
+
+                <title th:replace="${title} ?: 'Terapia y Salud Mental'"></title>
+            </head>
+
+            <header class="main-header">
+                <nav>
+                    <a th:href="@{/}" class="nav-link">Inicio</a>
+                    <a th:href="@{/psicologos}" class="nav-link">Buscar Terapeutas</a>
+                    <a th:href="@{/blog}" class="nav-link">Blog (Recursos)</a>
+                    <a sec:authorize="isAuthenticated()" 
+                       th:href="@{/dashboard}" 
+                       class="nav-link">Dashboard</a>
+
+                    <div sec:authorize="isAuthenticated()" class="nav-right">
+                        <!-- Formulario de CERRAR SESIÓN (Logout seguro por POST) -->
+                        <form th:action="@{/logout}" method="post" style="display: contents;">
+                            <button type="submit" class="nav-link btn-logout">Cerrar Sesión</button>
+                        </form>
+                    </div>
+
+                    <div sec:authorize="!isAuthenticated()" class="nav-right" style="display: flex; gap: 10px;">
+                        <a th:href="@{/login}" class="nav-link">Iniciar Sesión</a>
+                        <a th:href="@{/registro}" class="nav-link">Registro</a>
+                    </div>
+                </nav>
+            </header>
+
+            <main>
+                <div id="content" th:replace="${content}"> 
+                    <h1>Contenido por defecto</h1>
+                </div>
+            </main>
+
+            <footer class="main-footer">
+                <p>&copy; 2025 Terapia y Salud Mental. Universidad Fidélitas.</p>
+            </footer>
+
+        </div>
+
+    </body>
+</html>
