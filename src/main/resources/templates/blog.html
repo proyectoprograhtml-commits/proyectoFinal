@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="layout :: layout(~{::title}, ~{::content})">
+
+    <title>Blog - Recursos</title>
+
+    <section th:fragment="content">
+        <div class="container">
+            <h1>Blog y Recursos</h1>
+
+            <section>
+                <h2>Videos Motivacionales</h2>
+                <p>Ve diariamente un video para mejorar tu ánimo.</p>
+                <div th:each="vid : ${videos}" style="margin-bottom:20px;">
+                    <iframe width="560" height="315" th:src="${'https://www.youtube.com/embed/' + vid}" title="YouTube video" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </section>
+
+            <section>
+                <h2>Guías descargables</h2>
+                <p>Puedes descargar guías para leer sin conexión.</p>
+                <ul>
+                    <li th:each="g : ${guias}">
+                        <a th:href="@{'/guias/' + ${g}}" th:text="${g}" download></a>
+                    </li>
+                </ul>
+            </section>
+
+            <section style="margin-top:20px;">
+                <a class="btn-primary" th:href="@{/foro}">Entrar al Foro Comunitario</a>
+                <a class="btn-secondary" th:href="@{/recursos}">Ver Recursos</a>
+            </section>
+        </div>
+    </section>
+
+</div>
+</html>

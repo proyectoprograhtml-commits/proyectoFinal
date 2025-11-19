@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="layout :: layout(~{::title}, ~{::content})">
+
+    <title>Recursos</title>
+
+    <section th:fragment="content">
+        <div class="container">
+            <h1>Recursos para Pacientes</h1>
+
+            <section>
+                <h2>Recursos para problemas escolares</h2>
+                <p>Material pensado para docentes, padres y estudiantes.</p>
+
+                <ul>
+                    <li th:each="r : ${recursos}">
+                        <a th:href="@{'/guias/' + ${r}}" th:text="${r}" download></a>
+                    </li>
+                </ul>
+            </section>
+
+            <section style="margin-top:20px;">
+                <p>Próximamente: talleres y materiales interactivos.</p>
+            </section>
+        </div>
+    </section>
+
+</div>
+</html>
