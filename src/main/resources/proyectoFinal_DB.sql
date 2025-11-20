@@ -80,3 +80,24 @@ VALUES ('Terapeuta Prueba', 'prueba@test.com', '$2a$10$Zhd5/kuPMh7yA5eV8Ey7W.Wob
 
 INSERT INTO usuarios (nombre, email, password_hash, tipo_usuario, especialidad) 
 VALUES ('Terapeuta Prueba', 'profe@test.com', '$2a$10$fXJ5JNLwyvz8zTtt2k7DBupAa50ukPK5tATayOZ84cchm4Ooq0SWi', 'PROFESIONAL', 'Psicología Clínica');
+
+INSERT INTO usuarios (nombre, email, password_hash, tipo_usuario, especialidad)
+VALUES (
+    'Admin General',
+    'adminG@test.com',
+    '$2a$10$fXJ5JNLwyvz8zTtt2k7DBupAa50ukPK5tATayOZ84cchm4Ooq0SWi',
+    'ADMINISTRADOR',
+    'Administrador'
+);
+
+-- O para mas seguridad se crea el usuario como paciente desde la app y luego se utiliza este update con el usuario creado para hacerlo administrador 
+
+UPDATE usuarios SET tipo_usuario = 'ADMINISTRADOR',
+    especialidad = 'Administrador'
+WHERE email = 'admin@test.com';
+
+
+
+Select * from usuarios
+
+
