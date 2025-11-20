@@ -88,7 +88,7 @@ VALUES (
     '$2a$10$fXJ5JNLwyvz8zTtt2k7DBupAa50ukPK5tATayOZ84cchm4Ooq0SWi',
     'ADMINISTRADOR',
     'Administrador'
-);
+);-- La contraseña deberia de ser Admin123
 
 -- O para mas seguridad se crea el usuario como paciente desde la app y luego se utiliza este update con el usuario creado para hacerlo administrador 
 
