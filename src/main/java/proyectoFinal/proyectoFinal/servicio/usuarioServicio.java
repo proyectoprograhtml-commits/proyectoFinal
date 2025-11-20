@@ -57,4 +57,25 @@ public class usuarioServicio implements UserDetailsService {
         }
         throw new UsernameNotFoundException("Usuario no encontrado con email: " + email);
     }
+
+    public usuario registrarUsuarioDesdeAdmin(String nombre,
+            String email,
+            String password,
+            usuario.TipoUsuario tipoUsuario,
+            String especialidad) throws Exception {
+
+        if (usuarioRepositorio.existsByEmail(email)) {
+            throw new Exception("El email ya está registrado.");
+        }
+
+        usuario nuevo = new usuario();
+        nuevo.setNombre(nombre);
+        nuevo.setEmail(email);
+        nuevo.setPasswordHash(passwordEncoder.encode(password));
+        nuevo.setTipoUsuario(tipoUsuario);
+        nuevo.setEspecialidad(especialidad);
+
+        return usuarioRepositorio.save(nuevo);
+    }
+
 }

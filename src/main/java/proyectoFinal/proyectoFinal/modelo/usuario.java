@@ -1,6 +1,7 @@
 package proyectoFinal.proyectoFinal.modelo;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuarios")
@@ -20,6 +21,17 @@ public class usuario {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
     
+    
+    @Column(name = "fecha_registro")
+    private LocalDateTime fechaRegistro;
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
     private String especialidad; 
 
     public Long getId() { return id; }

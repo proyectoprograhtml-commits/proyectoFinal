@@ -1,16 +1,23 @@
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\indexControlador.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\psicologoControlador.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\usuarioControlador.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\modelo\cita.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\modelo\cuestionarioRespuesta.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\modelo\usuario.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\ProyectoFinalApplication.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\citaRepositorio.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\cuestionarioRepositorio.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\psicologoRepositorio.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\usuarioRepositorio.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\securityConfig.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\citaServicio.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\cuestionarioServicio.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\psicologoServicio.java
-E:\Universidad\2025\III Cuatrimestre\Apliciones WEB\Practica01\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\usuarioServicio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\AdminUsuarioControlador.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\BlogControlador.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\indexControlador.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\PanelControlador.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\psicologoControlador.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\usuarioControlador.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\modelo\cita.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\modelo\Comentario.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\modelo\cuestionarioRespuesta.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\modelo\usuario.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\ProyectoFinalApplication.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\citaRepositorio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\ComentarioRepositorio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\cuestionarioRepositorio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\psicologoRepositorio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\repositorio\usuarioRepositorio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\securityConfig.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\citaServicio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\ComentarioServicio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\cuestionarioServicio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\EstadisticasService.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\psicologoServicio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\usuarioServicio.java

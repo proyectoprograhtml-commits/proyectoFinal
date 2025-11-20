@@ -32,11 +32,13 @@ public class securityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/", "/login", "/registro").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error=true") // <-- ESTA LÍNEA
                 .permitAll()
                 )
                 .logout(logout -> logout

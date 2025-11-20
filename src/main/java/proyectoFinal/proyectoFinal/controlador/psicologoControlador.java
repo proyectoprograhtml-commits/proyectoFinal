@@ -12,6 +12,7 @@ import proyectoFinal.proyectoFinal.servicio.psicologoServicio;
 import java.util.List;
 import org.springframework.security.core.Authentication;
 import proyectoFinal.proyectoFinal.modelo.cita;
+import proyectoFinal.proyectoFinal.servicio.citaServicio;
 import proyectoFinal.proyectoFinal.servicio.usuarioServicio;
 
 @Controller
@@ -22,6 +23,9 @@ public class psicologoControlador {
 
     @Autowired
     private usuarioServicio usuarioServicio;
+
+    @Autowired
+    private citaServicio citaServicio;
 
     @GetMapping("/psicologos")
     public String buscarPsicologos(@RequestParam(required = false, defaultValue = "") String especialidad, Model model) {
@@ -35,12 +39,22 @@ public class psicologoControlador {
 
     @GetMapping("/paciente/dashboard")
     public String mostrarDashboard(Model model, Authentication authentication) {
+
+        // Email del usuario autenticado
         String emailUsuario = authentication.getName();
+
+        // Obtener id del paciente a partir del email
         Long pacienteId = usuarioServicio.getIdPorEmail(emailUsuario);
+
+        // Notificación de próxima cita (ya lo tenías)
         cita proximaCita = psicologoServicio.getProximaSesion(pacienteId);
         if (proximaCita != null) {
             model.addAttribute("notificacionCita", proximaCita);
         }
+
+        // NUEVO: lista completa de citas de este paciente
+        java.util.List<cita> citasPaciente = citaServicio.obtenerCitasDePaciente(pacienteId);
+        model.addAttribute("citasPaciente", citasPaciente);
 
         return "dashboard";
     }

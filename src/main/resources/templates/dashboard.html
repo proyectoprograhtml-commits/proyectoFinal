@@ -18,7 +18,35 @@
                     </p>
                 </div>
 
-                <hr>
+                <hr/>
+
+                <h2>Mis citas</h2>
+
+                <!-- Mensaje si no hay citas -->
+                <div th:if="${#lists.isEmpty(citasPaciente)}">
+                    <p>No tienes citas agendadas por el momento.</p>
+                </div>
+
+                <!-- Tabla de citas si existen -->
+                <table class="table" th:if="${!#lists.isEmpty(citasPaciente)}">
+                    <thead>
+                        <tr>
+                            <th>Fecha y hora</th>
+                            <th>Terapeuta</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${citasPaciente}">
+                            <td th:text="${#temporals.format(c.fechaHora, 'dd-MM-yyyy HH:mm')}">
+                                01-01-2025 10:00
+                            </td>
+                            <td th:text="${c.terapeutaId}">1</td>
+                            <td th:text="${c.estado}">Pendiente</td>
+                        </tr>
+                    </tbody>
+                </table>
+
 
                 <p>Explora <a th:href="@{/psicologos}">Terapeutas disponibles</a>.</p>
             </div>

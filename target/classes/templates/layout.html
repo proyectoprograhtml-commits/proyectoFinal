@@ -17,19 +17,15 @@
 
             <header class="main-header">
                 <nav>
-                    <!-- Enlaces Comunes y Públicos -->
                     <a th:href="@{/}" class="nav-link">Inicio</a>
                     <a th:href="@{/psicologos}" class="nav-link">Buscar Terapeutas</a>
                     <a th:href="@{/blog}" class="nav-link">Blog (Recursos)</a>
-                    
-                    <!-- 1. DASHBOARD: Visible SOLO si está Autenticado -->
                     <a sec:authorize="isAuthenticated()" 
                        th:href="@{/dashboard}" 
                        class="nav-link">Dashboard</a>
 
-                    <!-- 2. GESTIÓN DE SESIÓN (Contenedor derecho) -->
                     
-                    <!-- Bloque para USUARIO AUTENTICADO: Cerrar Sesión -->
+
                     <div sec:authorize="isAuthenticated()" class="nav-right">
                         <!-- Formulario de CERRAR SESIÓN (Logout seguro por POST) -->
                         <form th:action="@{/logout}" method="post" style="display: contents;">
@@ -37,8 +33,6 @@
                         </form>
                     </div>
 
-                    <!-- Bloque para USUARIO ANÓNIMO: Iniciar Sesión y Registro (¡CORRECCIÓN CLAVE!) -->
-                    <!-- Usa la negación estricta para garantizar la exclusión mutua. -->
                     <div sec:authorize="!isAuthenticated()" class="nav-right" style="display: flex; gap: 10px;">
                         <a th:href="@{/login}" class="nav-link">Iniciar Sesión</a>
                         <a th:href="@{/registro}" class="nav-link">Registro</a>

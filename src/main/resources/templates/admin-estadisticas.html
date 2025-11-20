@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title}, ~{::section})">
+    <head>
+        <title>Panel de Estadísticas</title>
+    </head>
+
+    <body>
+        <section>
+            <div class="container mt-4">
+                <h1 class="mb-4">Panel de Estadísticas</h1>
+
+                <!-- Resumen de usuarios -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Usuarios totales</h5>
+                                <p class="card-text display-6"
+                                   th:text="${totalUsuarios}">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Pacientes</h5>
+                                <p class="card-text display-6"
+                                   th:text="${totalPacientes}">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Profesionales</h5>
+                                <p class="card-text display-6"
+                                   th:text="${totalProfesionales}">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Administradores</h5>
+                                <p class="card-text display-6"
+                                   th:text="${totalAdministradores}">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen de citas -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Citas</h4>
+                                <p class="card-text">
+                                    Total de citas:
+                                    <strong th:text="${totalCitas}">0</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citas de hoy -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Citas de hoy</h3>
+
+                        <div th:if="${#lists.isEmpty(citasDeHoy)}">
+                            <p>No hay citas programadas para hoy.</p>
+                        </div>
+
+                        <table class="table"
+                               th:if="${!#lists.isEmpty(citasDeHoy)}">
+                            <thead>
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>ID Paciente</th>
+                                    <th>ID Profesional</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="c : ${citasDeHoy}">
+                                    <td th:text="${#temporals.format(c.fechaHora, 'HH:mm')}">
+                                        10:00
+                                    </td>
+                                    <td th:text="${c.clienteId}">1</td>
+                                    <td th:text="${c.terapeutaId}">2</td>
+                                    <td th:text="${c.estado}">Pendiente</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr/>
+
+                <h2>Informe mensual</h2>
+
+                <!-- Selector de mes/año -->
+                <form class="row g-3 mb-3" th:action="@{/admin/estadisticas}" method="get">
+                    <div class="col-auto">
+                        <label for="mes" class="form-label">Mes</label>
+                        <select id="mes" name="mes" class="form-select">
+                            <option th:each="m : ${#numbers.sequence(1,12)}"
+                                    th:value="${m}"
+                                    th:text="${m}"
+                                    th:selected="${m == mesSel}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label for="anio" class="form-label">Año</label>
+                        <input id="anio" name="anio" type="number" class="form-control"
+                               th:value="${anioSel}">
+                    </div>
+                    <div class="col-auto align-self-end">
+                        <button type="submit" class="btn btn-primary">
+                            Ver informe
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Resumen numérico -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Citas en el mes [[${mesSel}]]/[[${anioSel}]]
+                                </h5>
+                                <ul class="list-unstyled mb-0">
+                                    <li>Total citas: <strong th:text="${resumenMensual.totalCitas}">0</strong></li>
+                                    <li>Programadas: <span th:text="${resumenMensual.citasProgramadas}">0</span></li>
+                                    <li>Completadas: <span th:text="${resumenMensual.citasCompletadas}">0</span></li>
+                                    <li>Canceladas: <span th:text="${resumenMensual.citasCanceladas}">0</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Usuarios nuevos en el mes
+                                </h5>
+                                <ul class="list-unstyled mb-0">
+                                    <li>Total nuevos: <strong th:text="${resumenMensual.nuevosUsuarios}">0</strong></li>
+                                    <li>Pacientes: <span th:text="${resumenMensual.nuevosPacientes}">0</span></li>
+                                    <li>Profesionales: <span th:text="${resumenMensual.nuevosProfesionales}">0</span></li>
+                                    <li>Administradores: <span th:text="${resumenMensual.nuevosAdministradores}">0</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citas por semana -->
+                <h3>Citas por semana del mes</h3>
+
+                <div th:if="${resumenMensual == null or resumenMensual.citasPorSemana == null
+                     or resumenMensual.citasPorSemana.isEmpty()}">
+                    <p>No hay citas registradas en el mes seleccionado.</p>
+                </div>
+
+                <table class="table"
+                       th:if="${resumenMensual != null and resumenMensual.citasPorSemana != null
+                       and !resumenMensual.citasPorSemana.isEmpty()}">
+                    <thead>
+                        <tr>
+                            <th>Semana del mes</th>
+                            <th>Número de citas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- entrySet() devuelve Map.Entry<K,V>, accesible como entry.key / entry.value -->
+                        <tr th:each="entry : ${resumenMensual.citasPorSemana.entrySet()}">
+                            <td th:text="${entry.key}">1</td>
+                            <td th:text="${entry.value}">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </section>
+    </body>
+</html>

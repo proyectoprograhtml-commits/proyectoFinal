@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="layout :: layout(~{::title}, ~{::content})">
+
+    <title>Foro Comunitario</title>
+
+    <section th:fragment="content">
+        <div class="container">
+            <h1>Foro Comunitario</h1>
+
+            <form th:action="@{/foro/comentar}" th:object="${comentarioForm}" method="post" class="form-registro">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" th:field="*{autor}" placeholder="Tu nombre (opcional)">
+                </div>
+                <div>
+                    <label>Comentario</label>
+                    <textarea th:field="*{mensaje}" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
+                </div>
+                <div>
+                    <button type="submit">Publicar comentario</button>
+                </div>
+            </form>
+
+            <hr/>
+
+            <h2>Comentarios recientes</h2>
+            <div th:if="${#lists.isEmpty(comentarios)}">
+                <p>No hay comentarios aún. Sé el primero en escribir.</p>
+            </div>
+
+            <div th:each="c : ${comentarios}" style="margin-bottom:12px;">
+                <div style="border:1px solid #e0e0e0; padding:12px; border-radius:6px; background:#fafafa;">
+                    <strong th:text="${c.autor}">Autor</strong>
+                    <span style="color:#666; margin-left:10px;" th:text="${#temporals.format(c.fecha, 'dd-MM-yyyy HH:mm')}">fecha</span>
+                    <p th:text="${c.mensaje}" style="margin-top:8px;"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</html>

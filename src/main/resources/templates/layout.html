@@ -24,6 +24,8 @@
                        th:href="@{/dashboard}" 
                        class="nav-link">Dashboard</a>
 
+                    
+
                     <div sec:authorize="isAuthenticated()" class="nav-right">
                         <!-- Formulario de CERRAR SESIÓN (Logout seguro por POST) -->
                         <form th:action="@{/logout}" method="post" style="display: contents;">

@@ -37,4 +37,9 @@ public class citaServicio {
 
         return citaRepositorio.save(nuevaCita);
     }
+    
+    public java.util.List<cita> obtenerCitasDePaciente(Long pacienteId) {
+    return citaRepositorio.findByClienteIdOrderByFechaHoraAsc(pacienteId);
+}
+
 }
