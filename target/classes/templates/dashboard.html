@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layout :: layout(title=~{::title}, content=~{::#content})}">
+      th:replace="layout :: layout(~{::title}, ~{::section})">
     <head>
-        <title>Dashboard</title>
+        <title>Dashboard del Paciente</title>
     </head>
     <body>
-        <div id="content">
-            <div class="container"> 
+        <section>
+            <div class="container mt-4">
+
+                <div th:if="${exito}" class="alert alert-success" role="alert"
+                     th:text="${exito}">Operación exitosa</div>
+
+                <div th:if="${error}" class="alert alert-danger" role="alert"
+                     th:text="${error}">Ocurrió un error</div>
+
                 <h1>Bienvenido a tu Panel de Control</h1>
 
-                <div th:if="${notificacionCita != null}" style="border: 2px solid orange; padding: 15px; background-color: #fff3e0;">
-                    <h2>⚠️ Recordatorio de Cita Próxima</h2>
-                    <p>Tienes una sesión de terapia programada en breve:</p>
-                    <p><strong>Fecha y Hora:</strong> 
-                        <span th:text="${#temporals.format(notificacionCita.fechaHora, 'dd-MM-yyyy HH:mm')}"></span>
-                    </p>
+                <!-- Notificación de próxima cita (si existe) -->
+                <div th:if="${notificacionCita != null}" class="alert alert-info mt-3">
+                    <strong>Próxima cita:</strong>
+                    <span th:text="${#temporals.format(notificacionCita.fechaHora, 'dd-MM-yyyy HH:mm')}">
+                        01-01-2025 10:00
+                    </span>
+                    con terapeuta ID
+                    <span th:text="${notificacionCita.terapeutaId}">1</span>.
                 </div>
 
-                <hr/>
+                <!-- Enlace a terapeutas disponibles -->
+                <div class="mt-3">
+                    <a class="btn btn-primary" th:href="@{/psicologos}">
+                        Ver terapeutas disponibles
+                    </a>
+                </div>
 
+                <hr class="mt-4"/>
+
+                <!-- Sección PACIENTE -->
                 <h2>Mis citas</h2>
 
-                <!-- Mensaje si no hay citas -->
-                <div th:if="${#lists.isEmpty(citasPaciente)}">
+                <div th:if="${#lists.isEmpty(citasPaciente)}" class="mt-2">
                     <p>No tienes citas agendadas por el momento.</p>
                 </div>
 
-                <!-- Tabla de citas si existen -->
-                <table class="table" th:if="${!#lists.isEmpty(citasPaciente)}">
+                <table class="table mt-2" th:if="${!#lists.isEmpty(citasPaciente)}">
                     <thead>
                         <tr>
                             <th>Fecha y hora</th>
-                            <th>Terapeuta</th>
+                            <th>Terapeuta</th> <!-- aquí cambias el texto -->
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,15 +56,131 @@
                             <td th:text="${#temporals.format(c.fechaHora, 'dd-MM-yyyy HH:mm')}">
                                 01-01-2025 10:00
                             </td>
-                            <td th:text="${c.terapeutaId}">1</td>
-                            <td th:text="${c.estado}">Pendiente</td>
+                            <!-- aquí usas el mapa nombresUsuarios -->
+                            <td th:text="${nombresUsuarios[c.terapeutaId]}">Nombre terapeuta</td>
+                            <td th:text="${c.estado}">programada</td>
+                            <td>
+                                <!-- Cancelar (solo si está programada) -->
+                                <form th:if="${#strings.equalsIgnoreCase(c.estado, 'programada')}"
+                                      th:action="@{'/paciente/citas/' + ${c.id} + '/cancelar'}"
+                                      method="post"
+                                      style="display:inline-block;"
+                                      onsubmit="return confirm('¿Seguro que deseas cancelar esta cita?');">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Cancelar
+                                    </button>
+                                </form>
+
+                                <!-- Reprogramar (solo si está programada) -->
+                                <button th:if="${#strings.equalsIgnoreCase(c.estado, 'programada')}"
+                                        type="button"
+                                        class="btn btn-success btn-sm"
+                                        th:attr="data-cita-id=${c.id}"
+                                        onclick="mostrarReprogramarForm(this)">
+                                    Reprogramar
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
 
+                <!-- Sección PROFESIONAL / ADMIN -->
+                <hr class="mt-4" th:if="${esProfesionalOAdmin}"/>
 
-                <p>Explora <a th:href="@{/psicologos}">Terapeutas disponibles</a>.</p>
+                <div th:if="${esProfesionalOAdmin}">
+                    <h2>Citas como profesional</h2>
+
+                    <div th:if="${#lists.isEmpty(citasProfesional)}" class="mt-2">
+                        <p>No tienes citas asignadas por el momento.</p>
+                    </div>
+
+                    <<table class="table mt-2" th:if="${!#lists.isEmpty(citasProfesional)}">
+                        <thead>
+                            <tr>
+                                <th>Fecha y hora</th>
+                                <th>Paciente</th> <!-- cambias el encabezado -->
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="c : ${citasProfesional}">
+                                <td th:text="${#temporals.format(c.fechaHora, 'dd-MM-yyyy HH:mm')}">
+                                    01-01-2025 10:00
+                                </td>
+                                <!-- y aquí el nombre del paciente -->
+                                <td th:text="${nombresUsuarios[c.clienteId]}">Nombre paciente</td>
+                                <td th:text="${c.estado}">programada</td>
+                                <td>
+                                    <!-- Cancelar (solo programada) -->
+                                    <form th:if="${#strings.equalsIgnoreCase(c.estado, 'programada')}"
+                                          th:action="@{'/paciente/citas/' + ${c.id} + '/cancelar'}"
+                                          method="post"
+                                          style="display:inline-block;"
+                                          onsubmit="return confirm('¿Seguro que deseas cancelar esta cita?');">
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            Cancelar
+                                        </button>
+                                    </form>
+
+                                    <!-- Reprogramar (solo programada) -->
+                                    <button th:if="${#strings.equalsIgnoreCase(c.estado, 'programada')}"
+                                            type="button"
+                                            class="btn btn-success btn-sm"
+                                            th:attr="data-cita-id=${c.id}"
+                                            onclick="mostrarReprogramarForm(this)">
+                                        Reprogramar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Formulario para reprogramar cita (común) -->
+                <div id="reprogramar-container" style="display:none; margin-top:20px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Reprogramar cita</h5>
+                            <form id="reprogramar-form" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <div class="mb-3">
+                                    <label for="nuevaFecha" class="form-label">Nueva fecha</label>
+                                    <input type="date" class="form-control" id="nuevaFecha" name="nuevaFecha" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nuevaHora" class="form-label">Nueva hora</label>
+                                    <input type="time" class="form-control" id="nuevaHora" name="nuevaHora" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="cerrarReprogramarForm()">Cancelar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
+
+            <script type="text/javascript">
+                function mostrarReprogramarForm(btn) {
+                    const citaId = btn.getAttribute('data-cita-id');
+                    const cont = document.getElementById('reprogramar-container');
+                    const form = document.getElementById('reprogramar-form');
+
+                    form.action = '/paciente/citas/' + citaId + '/reprogramar';
+                    cont.style.display = 'block';
+                    window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+                }
+
+                function cerrarReprogramarForm() {
+                    const cont = document.getElementById('reprogramar-container');
+                    cont.style.display = 'none';
+                }
+            </script>
+
+        </section>
     </body>
 </html>

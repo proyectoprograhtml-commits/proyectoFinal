@@ -380,3 +380,30 @@ a:hover {
 .cita-exitosa-icon {
     animation: fadeInUp 0.8s ease-out 0.2s both;
 }
+
+
+/* ---------------------------------- */
+/* Boton del Chat                */
+/* ---------------------------------- */
+
+
+.chat-float-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.chat-float-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #0d6efd;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    font-size: 24px;
+}

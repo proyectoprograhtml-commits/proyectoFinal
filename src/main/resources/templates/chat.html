@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title}, ~{::section})">
+<head>
+    <title>Chat en tiempo real</title>
+</head>
+<body>
+<section>
+    <div class="container mt-4">
+        <h1 class="mb-3">Chat en tiempo real con un consejero</h1>
+        <p class="text-muted">
+            Este chat es de apoyo emocional y no reemplaza atención de emergencia.
+            Si estás en peligro inmediato, contacta a los servicios de emergencia de tu país.
+        </p>
+
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body d-flex flex-column" style="height: 500px;">
+                        <!-- Área de mensajes -->
+                        <div id="chat-window"
+                             class="border rounded p-3 mb-3 overflow-auto"
+                             style="flex: 1; background-color: #f8f9fa;">
+                            <!-- Mensaje inicial del consejero -->
+                            <div class="mb-2">
+                                <div class="badge bg-info text-dark">Consejero</div>
+                                <div>Hola, estoy aquí para escucharte. ¿Qué te preocupa hoy?</div>
+                            </div>
+                        </div>
+
+                        <!-- Área de entrada -->
+                        <form id="chat-form" class="d-flex">
+                            <input type="text" id="chat-input"
+                                   class="form-control me-2"
+                                   placeholder="Escribe tu mensaje..."
+                                   autocomplete="off" required>
+                            <button type="submit" class="btn btn-primary">
+                                Enviar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script de simulación de chat -->
+    <script type="text/javascript">
+        (function () {
+            const form = document.getElementById('chat-form');
+            const input = document.getElementById('chat-input');
+            const windowEl = document.getElementById('chat-window');
+
+            function agregarMensaje(remitente, texto, esUsuario) {
+                const div = document.createElement('div');
+                div.classList.add('mb-2');
+
+                const badge = document.createElement('div');
+                badge.classList.add('badge');
+                if (esUsuario) {
+                    badge.classList.add('bg-primary');
+                    badge.textContent = 'Tú';
+                } else {
+                    badge.classList.add('bg-info', 'text-dark');
+                    badge.textContent = 'Consejero';
+                }
+
+                const contenido = document.createElement('div');
+                contenido.textContent = texto;
+
+                div.appendChild(badge);
+                div.appendChild(contenido);
+                windowEl.appendChild(div);
+
+                windowEl.scrollTop = windowEl.scrollHeight;
+            }
+
+            function generarRespuestaAutomatica(textoUsuario) {
+                const t = textoUsuario.toLowerCase();
+
+                if (t.includes('ansiedad') || t.includes('ansiosa') || t.includes('ansioso')) {
+                    return 'Entiendo que la ansiedad puede sentirse muy intensa. ' +
+                        'Intenta respirar profundo unas cuantas veces. ' +
+                        '¿Puedes contarme qué está activando esa ansiedad?';
+                }
+                if (t.includes('triste') || t.includes('depresión') || t.includes('depresion')) {
+                    return 'Lamento que te sientas así. No estás solo en esto. ' +
+                        '¿Te gustaría contarme un poco más sobre lo que te hace sentir así?';
+                }
+                if (t.includes('miedo') || t.includes('asustado') || t.includes('asustada')) {
+                    return 'Sentir miedo es válido. ' +
+                        'Vamos paso a paso. ¿Qué es lo que más te preocupa en este momento?';
+                }
+
+                return 'Gracias por compartir lo que sientes. ' +
+                    'Cuéntame con un poco más de detalle para poder orientarte mejor.';
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const texto = input.value.trim();
+                if (!texto) {
+                    return;
+                }
+
+                // Mostrar mensaje del usuario
+                agregarMensaje('Tú', texto, true);
+
+                // Limpiar input
+                input.value = '';
+
+                // Simular respuesta del consejero
+                setTimeout(function () {
+                    const respuesta = generarRespuestaAutomatica(texto);
+                    agregarMensaje('Consejero', respuesta, false);
+                }, 600);
+            });
+        })();
+    </script>
+</section>
+</body>
+</html>

@@ -21,4 +21,11 @@ public interface citaRepositorio extends JpaRepository<cita, Long> {
     List<cita> findByClienteIdOrderByFechaHoraAsc(Long clienteId);
     
      List<cita> findByFechaHoraBetween(LocalDateTime inicio, LocalDateTime fin);
+     
+      // citas del profesional
+    List<cita> findByTerapeutaIdOrderByFechaHoraAsc(Long terapeutaId);
+
+    // próximas citas (si quieres filtrar solo futuras)
+    List<cita> findByTerapeutaIdAndFechaHoraAfterOrderByFechaHoraAsc(Long terapeutaId,
+                                                                      LocalDateTime fechaDesde);
 }

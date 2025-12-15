@@ -1,171 +1,176 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="layout :: layout(~{::title}, ~{::section})">
-    <head>
-        <title>Gestión de Usuarios</title>
-    </head>
-    <body>
-        <section>
-            <div class="container mt-4">
-                <h1 class="mb-4">Gestión de Usuarios</h1>
+<head>
+    <title>Gestión de Usuarios</title>
+</head>
+<body>
+<section>
+    <div class="container mt-4">
+        <h1 class="mb-4">Gestión de Usuarios</h1>
 
-                <!-- Mensajes flash -->
-                <div th:if="${exito}" class="alert alert-success" role="alert"
-                     th:text="${exito}">Usuario creado correctamente</div>
+        <!-- Mensajes flash -->
+        <div th:if="${exito}" class="alert alert-success" role="alert"
+             th:text="${exito}">Usuario creado correctamente</div>
 
-                <div th:if="${error}" class="alert alert-danger" role="alert"
-                     th:text="${error}">Error al crear usuario</div>
+        <div th:if="${error}" class="alert alert-danger" role="alert"
+             th:text="${error}">Error al crear usuario</div>
 
-                <div class="row">
-                    <!-- Formulario de alta -->
-                    <div class="col-md-4 mb-4">
-                        <!-- Formulario de edición (solo cuando hay usuarioEditar) -->
-                        <div class="col-md-4 mb-4" th:if="${usuarioEditar != null}">
-                            <div class="card border-warning">
-                                <div class="card-body">
-                                    <h4 class="card-title">Editar usuario</h4>
-                                    <form th:action="@{/admin/nuevosusuarios/editar}" method="post">
-                                        <input type="hidden" name="id" th:value="${usuarioEditar.id}"/>
-
-                                        <div class="mb-3">
-                                            <label for="editNombre" class="form-label">Nombre completo</label>
-                                            <input type="text" class="form-control" id="editNombre"
-                                                   name="nombre" th:value="${usuarioEditar.nombre}" required>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editEmail" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="editEmail"
-                                                   name="email" th:value="${usuarioEditar.email}" required>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editTipoUsuario" class="form-label">Rol</label>
-                                            <select class="form-select" id="editTipoUsuario" name="tipoUsuario" required>
-                                                <option value="PACIENTE"
-                                                        th:selected="${usuarioEditar.tipoUsuario.name() == 'PACIENTE'}">
-                                                    Paciente
-                                                </option>
-                                                <option value="PROFESIONAL"
-                                                        th:selected="${usuarioEditar.tipoUsuario.name() == 'PROFESIONAL'}">
-                                                    Profesional
-                                                </option>
-                                                <option value="ADMINISTRADOR"
-                                                        th:selected="${usuarioEditar.tipoUsuario.name() == 'ADMINISTRADOR'}">
-                                                    Administrador
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editEspecialidad" class="form-label">Especialidad (si aplica)</label>
-                                            <input type="text" class="form-control" id="editEspecialidad"
-                                                   name="especialidad"
-                                                   th:value="${usuarioEditar.especialidad}">
-                                        </div>
-
-                                        <button type="submit" class="btn btn-warning w-100">
-                                            Guardar cambios
-                                        </button>
-                                    </form>
-                                </div>
+        <div class="row">
+            <!-- Columna izquierda: nuevo usuario -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Nuevo usuario</h4>
+                        <form th:action="@{/admin/nuevosusuarios}" method="post">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre completo</label>
+                                <input type="text" class="form-control" id="nombre"
+                                       name="nombre" required>
                             </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Nuevo usuario</h4>
-                                <form th:action="@{/admin/nuevosusuarios}" method="post">
-                                    <div class="mb-3">
-                                        <label for="nombre" class="form-label">Nombre completo</label>
-                                        <input type="text" class="form-control" id="nombre"
-                                               name="nombre" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email"
-                                               name="email" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="tipoUsuario" class="form-label">Rol</label>
-                                        <select class="form-select" id="tipoUsuario" name="tipoUsuario" required>
-                                            <option value="PROFESIONAL">Profesional</option>
-                                            <option value="ADMINISTRADOR">Administrador</option>
-                                        </select>
-
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="especialidad" class="form-label">Especialidad (si aplica)</label>
-                                        <input type="text" class="form-control" id="especialidad"
-                                               name="especialidad"
-                                               placeholder="Ansiedad, Depresión, Administrador, etc.">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Contraseña inicial</label>
-                                        <input type="password" class="form-control" id="password"
-                                               name="password" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary w-100">
-                                        Guardar usuario
-                                    </button>
-                                </form>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email"
+                                       name="email" required>
                             </div>
-                        </div>
+                            <div class="mb-3">
+                                <label for="tipoUsuario" class="form-label">Rol</label>
+                                <select class="form-select" id="tipoUsuario" name="tipoUsuario" required>
+                                    <option value="PROFESIONAL">Profesional</option>
+                                    <option value="ADMINISTRADOR">Administrador</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="especialidad" class="form-label">Especialidad (si aplica)</label>
+                                <input type="text" class="form-control" id="especialidad"
+                                       name="especialidad"
+                                       placeholder="Ansiedad, Depresión, Administrador, etc.">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña inicial</label>
+                                <input type="password" class="form-control" id="password"
+                                       name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                Guardar usuario
+                            </button>
+                        </form>
                     </div>
-
-                    <!-- Lista de usuarios -->
-                    <div class="col-md-8 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Usuarios existentes</h4>
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Email</th>
-                                            <th>Rol</th>
-                                            <th>Especialidad</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="u : ${usuarios}">
-                                            <td th:text="${u.nombre}">Nombre</td>
-                                            <td th:text="${u.email}">email@test.com</td>
-                                            <td th:text="${u.tipoUsuario}">PROFESIONAL</td>
-                                            <td th:text="${u.especialidad}">Especialidad</td>
-                                            <td>
-                                                <!-- Botón Editar: recarga la página con editarId -->
-                                                <a class="btn btn-sm btn-outline-primary"
-                                                   th:href="@{/admin/nuevosusuarios(editarId=${u.id})}">
-                                                    Editar
-                                                </a>
-
-                                                <!-- Botón Eliminar -->
-                                                <form th:action="@{/admin/nuevosusuarios/eliminar}" method="post"
-                                                      style="display:inline-block;"
-                                                      onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
-                                                    <input type="hidden" name="id" th:value="${u.id}">
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                        Eliminar
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                        <tr th:if="${#lists.isEmpty(usuarios)}">
-                                            <td colspan="5" class="text-center">
-                                                No hay usuarios registrados todavía.
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-        </section>
-    </body>
+
+            <!-- Columna central: edición (solo si hay usuarioEditar) -->
+            <div class="col-md-4 mb-4" th:if="${usuarioEditar != null}">
+                <div class="card border-warning">
+                    <div class="card-body">
+                        <h4 class="card-title">Editar usuario</h4>
+                        <form th:action="@{/admin/nuevosusuarios/editar}" method="post">
+                            <input type="hidden" name="id" th:value="${usuarioEditar.id}"/>
+
+                            <div class="mb-3">
+                                <label for="editNombre" class="form-label">Nombre completo</label>
+                                <input type="text" class="form-control" id="editNombre"
+                                       name="nombre" th:value="${usuarioEditar.nombre}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail"
+                                       name="email" th:value="${usuarioEditar.email}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editTipoUsuario" class="form-label">Rol</label>
+                                <select class="form-select" id="editTipoUsuario" name="tipoUsuario" required>
+                                    <option value="PACIENTE"
+                                            th:selected="${usuarioEditar.tipoUsuario.name() == 'PACIENTE'}">
+                                        Paciente
+                                    </option>
+                                    <option value="PROFESIONAL"
+                                            th:selected="${usuarioEditar.tipoUsuario.name() == 'PROFESIONAL'}">
+                                        Profesional
+                                    </option>
+                                    <option value="ADMINISTRADOR"
+                                            th:selected="${usuarioEditar.tipoUsuario.name() == 'ADMINISTRADOR'}">
+                                        Administrador
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editEspecialidad" class="form-label">Especialidad (si aplica)</label>
+                                <input type="text" class="form-control" id="editEspecialidad"
+                                       name="especialidad"
+                                       th:value="${usuarioEditar.especialidad}">
+                            </div>
+
+                            <button type="submit" class="btn btn-warning w-100">
+                                Guardar cambios
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha: lista de usuarios -->
+            <div class="col-md-8 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Botón exportar CSV -->
+                        <div class="d-flex justify-content-end mb-2">
+                            <a class="btn btn-outline-secondary"
+                               th:href="@{/admin/nuevosusuarios/export/csv}">
+                                Exportar usuarios a CSV
+                            </a>
+                        </div>
+
+                        <h4 class="card-title">Usuarios existentes</h4>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Especialidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="u : ${usuarios}">
+                                <td th:text="${u.nombre}">Nombre</td>
+                                <td th:text="${u.email}">email@test.com</td>
+                                <td th:text="${u.tipoUsuario}">PROFESIONAL</td>
+                                <td th:text="${u.especialidad}">Especialidad</td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       th:href="@{/admin/nuevosusuarios(editarId=${u.id})}">
+                                        Editar
+                                    </a>
+
+                                    <form th:action="@{/admin/nuevosusuarios/eliminar}" method="post"
+                                          style="display:inline-block;"
+                                          onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                        <input type="hidden" name="id" th:value="${u.id}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(usuarios)}">
+                                <td colspan="5" class="text-center">
+                                    No hay usuarios registrados todavía.
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+</body>
 </html>

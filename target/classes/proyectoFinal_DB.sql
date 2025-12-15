@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS TerapiaSaludMental
 USE TerapiaSaludMental;
 
 --------------------------------------------------------------------------------
--- 2. TABLA USUARIOS (H.U. 1 y H.U. 3)
+-- TABLA USUARIOS
 -- Entidad principal para Pacientes, Profesionales y Administradores.
 --------------------------------------------------------------------------------
 CREATE TABLE usuarios (
@@ -30,7 +30,7 @@ CREATE TABLE usuarios (
 );
 
 --------------------------------------------------------------------------------
--- 3. TABLA CUESTIONARIO_RESPUESTAS (H.U. 2)
+-- TABLA CUESTIONARIO_RESPUESTAS
 -- Guarda la evaluación inicial del paciente.
 --------------------------------------------------------------------------------
 CREATE TABLE cuestionario_respuestas (
@@ -48,7 +48,7 @@ CREATE TABLE cuestionario_respuestas (
 );
 
 --------------------------------------------------------------------------------
--- 4. TABLA CITAS (H.U. 6)
+-- TABLA CITAS
 -- Guarda las sesiones programadas entre pacientes y profesionales.
 --------------------------------------------------------------------------------
 CREATE TABLE citas (
@@ -72,7 +72,7 @@ CREATE TABLE citas (
     FOREIGN KEY (profesional_id) REFERENCES usuarios(id) ON DELETE RESTRICT
 );
 
--- Índice de optimización para búsquedas rápidas de citas por paciente (H.U. 6)
+-- Índice de optimización para búsquedas rápidas de citas por paciente
 CREATE INDEX idx_citas_paciente_fecha ON citas (paciente_id, fecha_hora);
 
 INSERT INTO usuarios (nombre, email, password_hash, tipo_usuario, especialidad) 
@@ -80,3 +80,24 @@ VALUES ('Terapeuta Prueba', 'prueba@test.com', '$2a$10$Zhd5/kuPMh7yA5eV8Ey7W.Wob
 
 INSERT INTO usuarios (nombre, email, password_hash, tipo_usuario, especialidad) 
 VALUES ('Terapeuta Prueba', 'profe@test.com', '$2a$10$fXJ5JNLwyvz8zTtt2k7DBupAa50ukPK5tATayOZ84cchm4Ooq0SWi', 'PROFESIONAL', 'Psicología Clínica');
+
+INSERT INTO usuarios (nombre, email, password_hash, tipo_usuario, especialidad)
+VALUES (
+    'Admin General',
+    'adminG@test.com',
+    '$2a$10$fXJ5JNLwyvz8zTtt2k7DBupAa50ukPK5tATayOZ84cchm4Ooq0SWi',
+    'ADMINISTRADOR',
+    'Administrador'
+);-- La contraseña deberia de ser Admin123
+
+-- O para mas seguridad se crea el usuario como paciente desde la app y luego se utiliza este update con el usuario creado para hacerlo administrador 
+
+UPDATE usuarios SET tipo_usuario = 'ADMINISTRADOR',
+    especialidad = 'Administrador'
+WHERE email = 'admin@test.com';
+
+
+
+Select * from usuarios
+
+

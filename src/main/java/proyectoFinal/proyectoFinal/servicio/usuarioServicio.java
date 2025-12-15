@@ -78,4 +78,12 @@ public class usuarioServicio implements UserDetailsService {
         return usuarioRepositorio.save(nuevo);
     }
 
+    public usuario buscarPorEmail(String email) {
+        return usuarioRepositorio.findByEmail(email);
+    }
+
+    public usuario buscarPorId(Long id) {
+        return usuarioRepositorio.findById(id).orElse(null);
+    }
+
 }

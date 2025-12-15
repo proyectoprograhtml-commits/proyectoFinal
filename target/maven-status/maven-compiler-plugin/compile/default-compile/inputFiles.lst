@@ -1,5 +1,6 @@
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\AdminUsuarioControlador.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\BlogControlador.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\chatControlador.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\indexControlador.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\PanelControlador.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\controlador\psicologoControlador.java
@@ -18,6 +19,7 @@ C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\securityConfig.ja
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\citaServicio.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\ComentarioServicio.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\cuestionarioServicio.java
+C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\EmailServicio.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\EstadisticasService.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\psicologoServicio.java
 C:\dev\proyectoFinal\src\main\java\proyectoFinal\proyectoFinal\servicio\usuarioServicio.java

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> 
-    
+
     <body>
 
         <div th:fragment="layout(title, content)">
@@ -9,7 +9,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                
+
                 <link rel="stylesheet" th:href="@{/css/style.css}"> 
 
                 <title th:replace="${title} ?: 'Terapia y Salud Mental'"></title>
@@ -23,8 +23,9 @@
                     <a sec:authorize="isAuthenticated()" 
                        th:href="@{/dashboard}" 
                        class="nav-link">Dashboard</a>
-
-                    
+                    <a sec:authorize="hasRole('ADMINISTRADOR')" 
+                       th:href="@{/admin/nuevosusuarios}" 
+                       class="nav-link">Usuarios</a>
 
                     <div sec:authorize="isAuthenticated()" class="nav-right">
                         <!-- Formulario de CERRAR SESIÓN (Logout seguro por POST) -->
@@ -49,6 +50,13 @@
             <footer class="main-footer">
                 <p>&copy; 2025 Terapia y Salud Mental. Universidad Fidélitas.</p>
             </footer>
+
+            <!-- Botón flotante de chat (solo usuarios autenticados) -->
+            <div sec:authorize="isAuthenticated()" class="chat-float-container">
+                <a th:href="@{/chat}" class="chat-float-button">
+                    💬
+                </a>
+            </div>
 
         </div>
 

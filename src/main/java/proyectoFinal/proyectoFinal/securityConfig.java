@@ -33,12 +33,13 @@ public class securityConfig {
                 .requestMatchers("/", "/login", "/registro").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
+                // /paciente/** se cubre con authenticated()
                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error=true") // <-- ESTA LÍNEA
+                .failureUrl("/login?error=true")
                 .permitAll()
                 )
                 .logout(logout -> logout
@@ -50,4 +51,5 @@ public class securityConfig {
 
         return http.build();
     }
+
 }
