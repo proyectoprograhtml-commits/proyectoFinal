@@ -117,4 +117,22 @@ public class citaServicio {
         return citaRepositorio.findByTerapeutaIdAndFechaHoraAfterOrderByFechaHoraAsc(profesionalId, ahora);
     }
 
+    public cita obtenerPorId(Long citaId) {
+        return citaRepositorio.findById(citaId).orElse(null);
+    }
+
+    public void marcarComoCompletada(Long citaId, Long terapeutaId) {
+        cita c = obtenerPorId(citaId);
+        if (c == null) {
+            throw new RuntimeException("Cita no encontrada.");
+        }
+
+        if (c.getTerapeutaId() == null || !c.getTerapeutaId().equals(terapeutaId)) {
+            throw new RuntimeException("No autorizado para completar esta cita.");
+        }
+
+        c.setEstado("Completada");
+        citaRepositorio.save(c);
+    }
+
 }

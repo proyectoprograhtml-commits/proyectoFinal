@@ -46,7 +46,7 @@ public class psicologoControlador {
         usuario usuarioActual = usuarioServicio.buscarPorEmail(emailUsuario);
         Long usuarioId = usuarioActual.getId();
 
-        // PACIENTE
+        
         java.util.List<cita> citasPaciente = java.util.Collections.emptyList();
         if (usuarioActual.getTipoUsuario() == usuario.TipoUsuario.PACIENTE) {
             cita proximaCita = psicologoServicio.getProximaSesion(usuarioId);
@@ -57,7 +57,7 @@ public class psicologoControlador {
             model.addAttribute("citasPaciente", citasPaciente);
         }
 
-        // PROFESIONAL / ADMIN
+       
         java.util.List<cita> citasProfesional = java.util.Collections.emptyList();
         if (usuarioActual.getTipoUsuario() == usuario.TipoUsuario.PROFESIONAL
                 || usuarioActual.getTipoUsuario() == usuario.TipoUsuario.ADMINISTRADOR) {
@@ -67,10 +67,9 @@ public class psicologoControlador {
             model.addAttribute("esProfesionalOAdmin", true);
         }
 
-        // Mapa id -> nombre de TODOS los usuarios involucrados en citas
+        
         java.util.Map<Long, String> nombresUsuarios = new java.util.HashMap<>();
 
-        // de citas del paciente (terapeutas)
         for (cita c : citasPaciente) {
             Long idTerapeuta = c.getTerapeutaId();
             if (idTerapeuta != null && !nombresUsuarios.containsKey(idTerapeuta)) {
@@ -81,7 +80,7 @@ public class psicologoControlador {
             }
         }
 
-        // de citas del profesional (pacientes)
+        
         for (cita c : citasProfesional) {
             Long idPaciente = c.getClienteId();
             if (idPaciente != null && !nombresUsuarios.containsKey(idPaciente)) {
@@ -141,6 +140,17 @@ public class psicologoControlador {
             redirectAttributes.addFlashAttribute("error",
                     "No se pudo reprogramar la cita: " + e.getMessage());
         }
+
+        return "redirect:/paciente/dashboard";
+    }
+
+    @PostMapping("/citas/{id}/completar")
+    public String completarCita(@PathVariable("id") Long citaId, Authentication authentication) {
+
+        String emailUsuario = authentication.getName();
+        usuario terapeuta = usuarioServicio.buscarPorEmail(emailUsuario);
+
+        citaServicio.marcarComoCompletada(citaId, terapeuta.getId());
 
         return "redirect:/paciente/dashboard";
     }

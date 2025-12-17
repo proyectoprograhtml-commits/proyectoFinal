@@ -3,80 +3,93 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{layout :: layout(title=~{::title}, content=~{::#content})}">
     <head>
-        <title>Bienvenido | Terapia y Salud Mental</title>
+        <title>Terapia y Salud Mental</title>
     </head>
     <body>
         <div id="content">
 
-            <div class="container">
-                <h1>Bienvenido a Terapia y Salud Mental</h1>
-
-                <p>Tu espacio seguro en línea para conectar con profesionales de la salud mental.</p>
-
-                <hr>
-
-                <h2>¿Cómo podemos ayudarte hoy?</h2>
-
-                <div class="flex-cards">
-
-                    <div class="card">
-                        <h3>Encuentra un Terapeuta</h3>
-                        <p>Busca psicólogos y terapeutas especializados por área, experiencia y disponibilidad.</p>
-                        <a th:href="@{/psicologos}" class="btn-primary">Buscar Ahora</a>
+          
+            <section class="hero">
+                <div class="hero-overlay"></div>
+                <div class="hero-content container">
+                    <h1 class="hero-title">Salud Mental</h1>
+                    <p class="hero-subtitle">
+                        Tu espacio seguro en línea para conectar con profesionales de la salud mental.
+                                  Comienza tu viaje hacia una mente más saludable hoy.
+                    </p>
+                    <div class="hero-actions">
+                        <a th:href="@{/psicologos}" class="btn btn-primary">Buscar Terapeuta</a>
+                        <a th:href="@{/blog}" class="btn btn-primary">Ver Recursos</a>
                     </div>
-
-                    <div class="card">
-                        <h3>Recursos y Guías</h3>
-                        <p>Explora nuestro blog con artículos sobre ansiedad, manejo del estrés y bienestar.</p>
-                        <a th:href="@{/blog}" class="btn-primary">Leer el Blog</a>
-                    </div>
-
-                    <div class="card" sec:authorize="isAnonymous()">
-                        <h3>Acceso a Usuarios</h3>
-                        <p>Inicia sesión o regístrate para gestionar tus citas y acceder a tu dashboard.</p>
-                        <a th:href="@{/login}" class="btn-primary">Iniciar Sesión</a>
-                        <a th:href="@{/registro}" class="btn-secondary">Registrarse</a>
-                    </div>
-
-                    <div class="card" sec:authorize="isAuthenticated()">
-                        <h3>¡Bienvenido de nuevo!</h3>
-                        <p>Ya has iniciado sesión. Accede a tu panel para gestionar tus citas y perfil.</p>
-                        <a th:href="@{/dashboard}" class="btn-primary">Ir al Dashboard</a>
-                    </div>
-
-                    <!-- Fila de tarjeta extra SOLO para administradores -->
-                    <div class="card" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
-                        <h3 class="card-title">Panel de Estadísticas</h3>
-                        <p class="card-text">
-                            Revisa el resumen general 
-                            de usuarios, profesionales
-                            y citas de la plataforma.
-                        </p>
-                        <a class="btn btn-primary"
-                           th:href="@{/admin/estadisticas}">
-                            Ver estadísticas
-                        </a>                                                              
-                    </div>
-
-                    <!-- Fila solo visible para administradores -->
-                    <div class="card" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
-                                    <h3 class="card-title">Gestión de Usuarios</h3>
-                                    <p class="card-text">
-                                        Crea y administra nuevos profesionales o administradores
-                                        de la plataforma.
-                                    </p>
-                                    <a class="btn btn-primary"
-                                       th:href="@{/admin/nuevosusuarios}">
-                                        Administrar usuarios
-                                    </a>
-
-                    </div>
-
-
                 </div>
+            </section>
 
-                <p style="margin-top: 30px;">Estamos aquí para apoyarte en tu camino hacia el bienestar emocional.</p>
-            </div>
+            <!-- Sección principal de tarjetas -->
+            <section class="home-section">
+                <div class="container">
+                    <h2 class="home-section-title">¿Cómo podemos ayudarte hoy?</h2>
+
+                    <div class="flex-cards">
+
+                        <div class="card">
+                            <div class="card-icon card-icon-terapeuta"></div>
+                            <h3>Encuentra un Terapeuta</h3>
+                            <p>Busca psicólogos y terapeutas especializados por área, experiencia y disponibilidad.</p>
+                            <a th:href="@{/psicologos}" class="btn btn-primary card-btn">Buscar ahora</a>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon card-icon-recursos"></div>
+                            <h3>Recursos y Guías</h3>
+                            <p>Explora nuestro blog con artículos sobre ansiedad, manejo del estrés y bienestar.</p>
+                            <a th:href="@{/blog}" class="btn btn-primary card-btn">Leer el blog</a>
+                        </div>
+
+                        <div class="card" sec:authorize="isAnonymous()">
+                            <h3>Acceso a Usuarios</h3>
+                            <p>Inicia sesión o regístrate para gestionar tus citas y acceder a tu dashboard.</p>
+                            <div class="card-actions">
+                                <a th:href="@{/login}" class="btn btn-primary">Iniciar sesión</a>
+                                <a th:href="@{/registro}" class="btn btn-outline">Registrarse</a>
+                            </div>
+                        </div>
+
+                        <div class="card" sec:authorize="isAuthenticated()">
+                            <h3>¡Bienvenido de nuevo!</h3>
+                            <p>Ya has iniciado sesión. Accede a tu panel para gestionar tus citas y perfil.</p>
+                            <a th:href="@{/dashboard}" class="btn btn-primary">Ir al dashboard</a>
+                        </div>
+
+                        <!-- SOLO administradores -->
+                        <div class="card" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+                            <h3 class="card-title">Panel de Estadísticas</h3>
+                            <p class="card-text">
+                                Revisa el resumen general de usuarios, profesionales y citas de la plataforma.
+                            </p>
+                            <a class="btn btn-primary"
+                               th:href="@{/admin/estadisticas}">
+                                Ver estadísticas
+                            </a>                                                              
+                        </div>
+
+                        <div class="card" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+                            <h3 class="card-title">Gestión de Usuarios</h3>
+                            <p class="card-text">
+                                Crea y administra nuevos profesionales o administradores de la plataforma.
+                            </p>
+                            <a class="btn btn-primary"
+                               th:href="@{/admin/nuevosusuarios}">
+                                Administrar usuarios
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <p class="home-footer-text">
+                        Estamos aquí para apoyarte en tu camino hacia el bienestar emocional.
+                    </p>
+                </div>
+            </section>
         </div>
     </body>
 </html>
